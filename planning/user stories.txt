@@ -1,0 +1,19 @@
+user stories
+
+**Unregistered**
+Unregistered users can leave comments (as guest?)
+Add listing redirects to log in.
+Log in or create account
+Sign up to register
+
+**Logged Out State**
+Click sign in/sign up to redirect to register page
+Click Add Listing and redirects to sign up 
+Logged out users can leave comments
+See saved listings takes you to login page
+
+**Logged In** 
+Will not see login/sign up links
+Add Listing to add a listing 
+Click "see saved listings" to see saved homes 
+Saved listings has filtering abilities
