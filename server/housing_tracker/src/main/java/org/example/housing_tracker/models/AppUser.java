@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.housing_tracker.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
