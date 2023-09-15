@@ -103,9 +103,17 @@ insert into location (city, state, zipcode)
 insert into listings (location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym)
 	values
     (1,"link@firstlink.com",2000,2,1,1,false,"In-Unit","Street",true),
-    (2,"test@link.com",1500,1,1,4,true,"In-Unit","Paid residential",true);
+    (2,"test@link.com",1500,1,1,4,true,"In-Unit","Paid residential",true),
+    (2,"anothertest@link.com",900,3,1,2,false,"Shared","Street",false);
     
 insert into comments (comment_text, app_user_id, listing_id)
 	values 
     ("Not a safe area", 4, 2),
     ("This one is so pretty!",2,1);
+    
+    
+select * from listings;
+-- delete from comments where listing_id = 1;
+-- delete from listings where listing_id = 1;
+
+select listing_id, location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym from listings where link = "anothertest@link.com";

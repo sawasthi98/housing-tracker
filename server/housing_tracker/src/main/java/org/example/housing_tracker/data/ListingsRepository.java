@@ -1,9 +1,13 @@
 package org.example.housing_tracker.data;
 
 import org.example.housing_tracker.models.Listing;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
+@Component
 public interface ListingsRepository {
 
 //    find bys

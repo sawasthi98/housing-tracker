@@ -103,7 +103,7 @@ public class Listing {
         this.parking = parking;
     }
 
-    public boolean isGym() {
+    public boolean hasGym() {
         return gym;
     }
 
