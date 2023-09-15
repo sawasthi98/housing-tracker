@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.housing_tracker.domain;
 
 import org.example.housing_tracker.data.AppUserJdbcTemplateRepository;
 import org.example.housing_tracker.domain.AppUserService;
