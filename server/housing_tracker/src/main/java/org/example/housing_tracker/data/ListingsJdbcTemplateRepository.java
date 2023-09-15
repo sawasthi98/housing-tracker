@@ -36,7 +36,8 @@ public class ListingsJdbcTemplateRepository implements ListingsRepository {
                 "from listings " +
                 "where link = ?;";
 
-        return jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate), link).stream().findFirst().orElse(null);
+        List<Listing> all = jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate), link);
+        return (all == null || all.size() == 0 ? null : all.get(0));
     }
 
     @Override
