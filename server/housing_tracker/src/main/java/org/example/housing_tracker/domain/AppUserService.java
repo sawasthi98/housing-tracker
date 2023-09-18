@@ -3,6 +3,8 @@ package org.example.housing_tracker.domain;
 import org.example.housing_tracker.data.AppUserRepository;
 import org.example.housing_tracker.models.AppUser;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AppUserService {
+public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository repository;
     private final PasswordEncoder encoder;

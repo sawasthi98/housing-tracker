@@ -1,13 +1,16 @@
 package org.example.housing_tracker.data;
 
+import org.example.housing_tracker.App;
 import org.example.housing_tracker.data.mappers.AppUserMapper;
 import org.example.housing_tracker.models.AppUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 
@@ -52,7 +55,6 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
         }
         int appUserId = keyHolder.getKey().intValue();
         user.setAppUserId(appUserId);
-        //int appRoleId = user.getAuthorities().contains(new SimpleGrantedAuthority("USER")) ? 1 : 2;
         insertUserRole(appUserId, 2);
 
         return user;
