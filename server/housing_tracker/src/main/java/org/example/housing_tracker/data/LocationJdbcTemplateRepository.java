@@ -24,24 +24,4 @@ public class LocationJdbcTemplateRepository implements LocationRepository {
         return jdbcTemplate.query(sql, new LocationMapper(jdbcTemplate));
     }
 
-
-//    @Override
-//    public Location findByLocationId(int locationId) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Location findByCity(String city) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Location findByState(String state) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Location findByZipcode(int zipcode) {
-//        return null;
-//    }
 }

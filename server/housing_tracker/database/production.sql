@@ -112,8 +112,7 @@ insert into comments (comment_text, app_user_id, listing_id)
     ("This one is so pretty!",2,1);
     
     
-select * from listings;
+select * from comments;
 -- delete from comments where listing_id = 1;
 -- delete from listings where listing_id = 1;
 
-select listing_id, location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym from listings where link = "anothertest@link.com";

@@ -118,7 +118,8 @@ insert into location (city, state, zipcode)
 insert into listings (location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym)
 	values
     (1,"link@firstlink.com",2000,2,1,1,false,"In-Unit","Street",true),
-    (2,"test@link.com",1500,1,1,4,true,"In-Unit","Paid residential",true);
+    (2,"test@link.com",1500,1,1,4,true,"In-Unit","Paid residential",true),
+    (2,"anothertest@link.com",900,3,1,2,false,"Shared","Street",false);
     
 insert into comments (comment_text, app_user_id, listing_id)
 	values 

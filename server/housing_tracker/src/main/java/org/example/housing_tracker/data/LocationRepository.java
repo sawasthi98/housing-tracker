@@ -9,11 +9,5 @@ import java.util.List;
 @Repository
 @Component
 public interface LocationRepository {
-
-    public List<Location> findAll ();
-//    public Location findByLocationId (int locationId);
-//    public Location findByCity (String city);
-//    public Location findByState (String state);
-//    public Location findByZipcode (int zipcode);
-
+    public List<Location> findAll();
 }

@@ -1,10 +1,14 @@
 package org.example.housing_tracker.data;
 
+import org.example.housing_tracker.models.Listing;
+import org.example.housing_tracker.models.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,25 +29,12 @@ class LocationJdbcTemplateRepositoryTest {
             jdbcTemplate.update("call set_known_good_state();");
         }
     }
-
-    @Test
-    void shouldFindLocationByState () {
-
-    }
-
-    @Test
-    void shouldFindLocationById () {
-
-    }
-
-    @Test
-    void shouldFindLocationByCity () {
-
-    }
-
     @Test
     void shouldFindAll () {
-//        Yes?
+        List<Location> allLocations = repository.findAll();
+
+        assertNotNull(allLocations);
+        assertEquals(allLocations.size(),2);
     }
 
 }

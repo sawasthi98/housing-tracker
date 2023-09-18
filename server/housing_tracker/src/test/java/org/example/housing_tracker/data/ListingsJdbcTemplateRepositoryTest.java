@@ -64,7 +64,7 @@ class ListingsJdbcTemplateRepositoryTest {
         List<Listing> allListings = repository.findAll();
 
         assertNotNull(allListings);
-        assertEquals(allListings.size(),2);
+        assertEquals(allListings.size(),3);
     }
 
     @Test
