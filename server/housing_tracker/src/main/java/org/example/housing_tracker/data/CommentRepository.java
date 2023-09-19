@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public interface CommentRepository {
 
-    public List<Comment> findAll();
+    public List<Comment> findAllByListingId(int listingId);
     public Comment addComment(Comment comment);
     public boolean updateComment(Comment comment);
     public boolean deleteCommentById(int commentId);

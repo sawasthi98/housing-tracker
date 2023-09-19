@@ -81,7 +81,7 @@ class ListingsJdbcTemplateRepositoryTest {
         newListing.setParking("Garage");
         newListing.setGym(false);
 
-        Listing createdListing = repository.createListing(newListing);
+        Listing createdListing = repository.addListing(newListing);
 
         assertNotNull(createdListing);
         assertEquals(createdListing,newListing);

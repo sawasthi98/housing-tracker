@@ -16,7 +16,7 @@ public interface ListingsRepository {
     public List<Listing> findAll ();
 
 //    create
-    public Listing createListing (Listing listing);
+    public Listing addListing (Listing listing);
 //    update
     public boolean updateListing (Listing listing);
 //    delete

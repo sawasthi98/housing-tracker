@@ -20,11 +20,12 @@ public class CommentJdbcTemplateRepository implements CommentRepository {
     }
 
     @Override
-    public List<Comment> findAll () {
+    public List<Comment> findAllByListingId (int listingId) {
         final String sql = "select comment_id, comment_text, listing_id, app_user_id " +
-                "from comments; " ;
+                "from comments " +
+                "where listing_id = ?; " ;
 
-        return jdbcTemplate.query(sql, new CommentMapper(jdbcTemplate));
+        return jdbcTemplate.query(sql, new CommentMapper(jdbcTemplate), listingId);
     }
 
     @Override

@@ -10,4 +10,6 @@ import java.util.List;
 @Component
 public interface LocationRepository {
     public List<Location> findAll();
+    public Location addLocation(Location location);
+    public Location findLocationByZipcode(int zipcode);
 }

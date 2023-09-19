@@ -37,10 +37,10 @@ class CommentJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindAll () {
-        List<Comment> allComments = repository.findAll();
+        List<Comment> allComments = repository.findAllByListingId(1);
 
         assertNotNull(allComments);
-        assertEquals(allComments.size(),2);
+        assertEquals(allComments.size(),1);
     }
 
 //    @Test
@@ -50,18 +50,18 @@ class CommentJdbcTemplateRepositoryTest {
 //        assertNull(nonexistentComment);
 //    }
 
-    @Test
-    void shouldAddComment () {
-        newComment.setCommentId(3);
-        newComment.setCommentText("Test comment");
-        newComment.setAppUserId(3);
-        newComment.setListingId(2);
-
-        Comment createdListing = repository.addComment(newComment);
-
-        assertNotNull(createdListing);
-        assertEquals();
-    }
+//    @Test
+//    void shouldAddComment () {
+//        newComment.setCommentId(3);
+//        newComment.setCommentText("Test comment");
+//        newComment.setAppUserId(3);
+//        newComment.setListingId(2);
+//
+//        Comment createdListing = repository.addComment(newComment);
+//
+//        assertNotNull(createdListing);
+//        assertEquals();
+//    }
 
     @Test
     void shouldUpdateComment () {

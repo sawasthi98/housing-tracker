@@ -51,7 +51,7 @@ public class ListingsJdbcTemplateRepository implements ListingsRepository {
     }
 
     @Override
-    public Listing createListing(Listing listing) throws DataAccessException {
+    public Listing addListing(Listing listing) throws DataAccessException {
         final String sql = "insert into listings (location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym)" +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
