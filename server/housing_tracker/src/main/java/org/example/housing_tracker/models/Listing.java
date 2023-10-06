@@ -1,29 +1,31 @@
 package org.example.housing_tracker.models;
 
-public class Listings {
+public class Listing {
 
     private int listingId;
+    private String link;
     private int locationId;
     private int cost;
     private int numBeds;
     private int numBaths;
     private int appUserId;
-    private boolean pet_friendly;
+    private boolean petFriendly;
     private String laundryAvailability;
     private String parking;
     private boolean gym;
 
-    public Listings() {
+    public Listing() {
     }
 
-    public Listings(int listingId, int locationId, int cost, int numBeds, int numBaths, int appUserId, boolean pet_friendly, String laundryAvailability, String parking, boolean gym) {
+    public Listing(int listingId, String link, int locationId, int cost, int numBeds, int numBaths, int appUserId, boolean petFriendly, String laundryAvailability, String parking, boolean gym) {
         this.listingId = listingId;
+        this.link = link;
         this.locationId = locationId;
         this.cost = cost;
         this.numBeds = numBeds;
         this.numBaths = numBaths;
         this.appUserId = appUserId;
-        this.pet_friendly = pet_friendly;
+        this.petFriendly = petFriendly;
         this.laundryAvailability = laundryAvailability;
         this.parking = parking;
         this.gym = gym;
@@ -77,12 +79,12 @@ public class Listings {
         this.appUserId = appUserId;
     }
 
-    public boolean isPet_friendly() {
-        return pet_friendly;
+    public boolean isPetFriendly() {
+        return petFriendly;
     }
 
-    public void setPet_friendly(boolean pet_friendly) {
-        this.pet_friendly = pet_friendly;
+    public void setPetFriendly(boolean petFriendly) {
+        this.petFriendly = petFriendly;
     }
 
     public String getLaundryAvailability() {
@@ -101,11 +103,19 @@ public class Listings {
         this.parking = parking;
     }
 
-    public boolean isGym() {
+    public boolean hasGym() {
         return gym;
     }
 
     public void setGym(boolean gym) {
         this.gym = gym;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

@@ -1,4 +1,4 @@
-package org.example.data;
+package org.example.housing_tracker.data;
 
 import org.example.housing_tracker.data.AppUserJdbcTemplateRepository;
 import org.example.housing_tracker.models.AppUser;
@@ -6,8 +6,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.print.attribute.standard.PresentationDirection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,5 +66,6 @@ class AppUserJdbcTemplateRepositoryTest {
         assertNotNull(createdUser);
         assertEquals(createdUser.getUsername(),testUser.getUsername());
     }
+
 
 }

@@ -44,6 +44,7 @@ create table location (
 create table listings (
 	listing_id int primary key auto_increment,
     location_id int,
+    link text,
     cost int, 
     num_beds int,
     num_baths int,
@@ -99,12 +100,19 @@ insert into location (city, state, zipcode)
     ("Charlotte","NC",28278),
     ("Charlotte","NC",28217);
     
-insert into listings (location_id, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym)
+insert into listings (location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym)
 	values
-    (1,2000,2,1,1,false,"In-Unit","Street",true),
-    (2,1500,1,1,4,true,"In-Unit","Paid residential",true);
+    (1,"link@firstlink.com",2000,2,1,1,false,"In-Unit","Street",true),
+    (2,"test@link.com",1500,1,1,4,true,"In-Unit","Paid residential",true),
+    (2,"anothertest@link.com",900,3,1,2,false,"Shared","Street",false);
     
 insert into comments (comment_text, app_user_id, listing_id)
 	values 
     ("Not a safe area", 4, 2),
     ("This one is so pretty!",2,1);
+    
+    
+select * from comments;
+-- delete from comments where listing_id = 1;
+-- delete from listings where listing_id = 1;
+
