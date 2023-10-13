@@ -44,6 +44,9 @@ public class ListingsService {
             return result;
         }
 
+//        add location if location by zipcode does not exist previously - locationrepo add
+        
+
         listing = repository.createListing(listing);
         result.setPayload(listing);
         return result;
