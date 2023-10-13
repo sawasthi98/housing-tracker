@@ -88,16 +88,6 @@ class ListingsJdbcTemplateRepositoryTest {
         assertEquals(newListing.getListingId(),createdListing.getListingId());
     }
 
-//    @Test
-//    void shouldNotCreateNullOrBlankListing () {
-//        Listing blankListing = repository.createListing(newListing);
-//
-//        Listing nullListing = new Listing(0,null,0,0,0,0,0,false,null,null,false);
-//
-//        assertNull(blankListing);
-//        assertNull(repository.createListing(nullListing));
-//    }
-
     @Test
     void shouldUpdateListing () {
         testListing.setLocationId(1);

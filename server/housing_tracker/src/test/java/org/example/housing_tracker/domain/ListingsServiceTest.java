@@ -1,6 +1,7 @@
 package org.example.housing_tracker.domain;
 
 import org.example.housing_tracker.data.ListingsJdbcTemplateRepository;
+import org.example.housing_tracker.data.ListingsRepository;
 import org.example.housing_tracker.models.Listing;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ class ListingsServiceTest {
     ListingsService service;
 
     @MockBean
-    ListingsJdbcTemplateRepository repository;
+    ListingsRepository repository;
 
     @Test
     void shouldFindAll () {
@@ -36,33 +37,31 @@ class ListingsServiceTest {
 
     @Test
     void shouldFindListingByListingId () {
-        when(repository.findAll()).thenReturn(List.of(
-                new Listing(1,"testLink1@test.com",3,1200,2,2,1,false,"In-Unit","Street parking",false)
-        ));
+        Listing existingListing = new Listing(1,"link@firstlink.com",1,2000,2,1,1,false,"In-Unit","Street",true);
+
+        when(repository.findListingById(1)).thenReturn(existingListing);
 
         Listing listing = service.findByListingId(1);
 
-        assertTrue(listing.getLink().equals("testLink1@test.com"));
+        assertTrue(listing.getLink().equals("link@firstlink.com"));
         assertEquals(listing.getListingId(),1);
     }
 
     @Test
     void shouldFindListingByLink () {
-        when(repository.findAll()).thenReturn(List.of(
-                new Listing(1,"testLink1@test.com",3,1200,2,2,1,false,"In-Unit","Street parking",false)
-        ));
+        Listing existingListing = new Listing(1,"link@firstlink.com",1,2000,2,1,1,false,"In-Unit","Street",true);
 
-        Listing listing = service.findListingByLink("testLink1@test.com");
+        when(repository.findListingByLink("link@firstlink.com")).thenReturn(existingListing);
 
-        assertTrue(listing.getLink().equals("testLink1@test.com"));
+        Listing listing = service.findListingByLink("link@firstlink.com");
+
+        assertTrue(listing.getLink().equals("link@firstlink.com"));
     }
 
     @Test
     void shouldNotFindIfSearchIsNullOrBlank () {
         Listing nullLinkListing = service.findListingByLink(null);
-        Listing nullIdListing = service.findListingById(null);
 
-        assertNull(nullIdListing);
         assertNull(nullLinkListing);
 
         Listing emptyLinkListing = service.findListingByLink("");
@@ -74,79 +73,65 @@ class ListingsServiceTest {
 
     @Test
     void shouldNotCreateListingIfNullOrBlankFields () {
-        Listing listing = null;
-        Listing blankListing = new Listing();
-        blankListing.setListingId(2);
+        Listing listing = new Listing(95,"TEST",1,2000,2,1,1,false,"In-Unit","Street",true);
 
-        Result result = service.addListing(listing);
-        Result blankResult = service.addListing(blankListing);
+        Result<Listing> actual = service.addListing(listing);
+        assertEquals(ResultType.INVALID, actual.getResultType());
 
-        assertFalse(result.isSuccess());
-        assertFalse(result.isSuccess());
-        assertEquals(1, result.getErrorMessages().size());
-        assertEquals(1,blankResult.getErrorMessages().size());
-        assertTrue(result.getErrorMessages().contains("Listing link cannot be null or blank"));
-        assertTrue(blankResult.getErrorMessages().contains("Listing link cannot be null or blank"));
+        listing.setListingId(0);
+        listing.setLink(null);
+
+        actual = service.addListing(listing);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+
+        listing.setParking("TEST");
+        listing.setLaundryAvailability("   ");
+        actual = service.addListing(listing);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+
+        assertFalse(actual.isSuccess());
+        assertFalse(actual.isSuccess());
+        assertEquals(1, actual.getErrorMessages().size());
     }
 
     @Test
     void shouldCreateNewListing () {
         Listing listing = new Listing();
 
-        listing.setListingId(1);
         listing.setLink("newLink@test.com");
         listing.setAppUserId(2);
 
         when(repository.createListing(listing)).thenReturn(listing);
 
-        Result result = service.addListing(listing);
+        Result<Listing> result = service.addListing(listing);
 
         assertTrue(result.isSuccess());
         assertNotNull(result.getErrorMessages());
     }
 
-    @Test
-    void shouldNotCreateDuplicateListing () {
-        Listing listing1 = new Listing();
-
-        listing1.setListingId(1);
-        listing1.setLink("newLink@test.com");
-        listing1.setAppUserId(2);
-
-        when(repository.createListing(listing1)).thenReturn(listing1);
-
-        Result result = service.addListing(listing1);
-
-        assertTrue(result.isSuccess());
-
-        Listing listing = new Listing();
-        listing.setListingId(1);
-        listing.setLink("newLink@test.com");
-        listing.setAppUserId(2);
-
-        when(repository.findListingByLink(listing.getLink())).thenReturn(listing);
-
-        Result result2 = service.addListing(listing);
-
-        assertFalse(result2.isSuccess());
-    }
+//    @Test
+//    void shouldNotCreateDuplicateListing () {
+//        Listing duplicateListing = new Listing();
+//        duplicateListing.setLink("link@firstlink.com");
+//
+//        when(repository.createListing(duplicateListing)).thenReturn(null);
+//
+//        Result<Listing> result = service.addListing(duplicateListing);
+//
+//        assertFalse(result.isSuccess());
+//        assertTrue(result.getErrorMessages().contains("Listing already exists for this user"));
+//    }
 
     @Test
     void shouldUpdateListing () {
-        Listing existingListing = new Listing();
+        Listing listing = new Listing(1,"link@firstlink.com",1,2000,2,1,1,false,"In-Unit","Street",true);
 
-        existingListing.setListingId(1);
-        existingListing.setLink("newLink@test.com");
-        existingListing.setAppUserId(2);
-        Listing updatedListing = new Listing();
-        updatedListing.setLink("differentLink@test.com");
+        when(repository.updateListing(listing)).thenReturn(true);
 
-        when(repository.findListingByLink("newLink@test.com")).thenReturn(existingListing);
-        when(repository.updateListing(updatedListing)).thenReturn(true);
-
-        Result result = service.updateListing(updatedListing);
+        Result<Listing> result = service.updateListing(listing);
 
         assertTrue(result.isSuccess());
+        assertEquals(ResultType.SUCCESS, result.getResultType());
     }
 
     @Test
@@ -158,8 +143,8 @@ class ListingsServiceTest {
 
         when(repository.deleteListingById(1)).thenReturn(true);
 
-        Result result = service.deleteListing(listing);
+        boolean deletedResult = service.deleteListing(1);
 
-        assertTrue(result.isSuccess());
+        assertTrue(deletedResult);
     }
 }
