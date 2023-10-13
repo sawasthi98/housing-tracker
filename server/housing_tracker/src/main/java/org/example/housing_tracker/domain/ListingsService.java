@@ -15,22 +15,28 @@ public class ListingsService {
         this.repository = repository;
     }
 
-    public Result addListing (Listing listing) {
-        Result result = new Result();
+    public List<Listing> findAll () {
+        return repository.findAll();
+    }
 
-        if (listing == null || listing.getLink().isBlank()) {
-            result.addErrorMessage("Listing link cannot be null or blank", ResultType.NOT_FOUND);
+    public Listing findListingByLink (String link) {
+        return repository.findListingByLink(link);
+    }
+
+    public Listing findByListingId (int listingId) {
+        return repository.findListingById(listingId);
+    }
+
+    public Result<Listing> addListing (Listing listing) {
+        Result result = validate(listing);
+
+        if (!result.isSuccess()) {
             return result;
         }
-        for (Listing l : repository.findAll()){
-            if (l.equals(listing)) {
-                result.addErrorMessage("This listing already exists for this user", ResultType.INVALID);
-                return result;
-            }
-            if (l.getListingId() == listing.getListingId()) {
-                result.addErrorMessage("Listing already exists for this user", ResultType.INVALID);
-                return result;
-            }
+
+        if (listing.getListingId() != 0) {
+            result.addErrorMessage("listingId cannot be set for `add` operation", ResultType.INVALID);
+            return result;
         }
 
         if (repository.createListing(listing) == null) {
@@ -38,38 +44,62 @@ public class ListingsService {
             return result;
         }
 
+        listing = repository.createListing(listing);
+        result.setPayload(listing);
         return result;
     }
 
-    public Result updateListing (Listing listing) {
-        Result result = new Result();
+    public Result<Listing> updateListing (Listing listing) {
+        Result result = validate(listing);
 
-        if (listing == null || listing.getLink() == null || listing.getLink().isBlank()){
-            result.addErrorMessage("Link cannot be null or blank.", ResultType.NOT_FOUND);
+        if (listing.getListingId() <= 0) {
+            result.addErrorMessage("listingId must be set for `update` operation", ResultType.INVALID);
             return result;
         }
-        if (repository.findListingById(listing.getListingId()) != listing) {
-            result.addErrorMessage("This is not the same review",ResultType.INVALID);
-            return result;
+
+        if (!repository.updateListing(listing)) {
+            String msg = String.format("listingId: %s, not found", listing.getListingId());
+            result.addErrorMessage(msg, ResultType.NOT_FOUND);
         }
+
         if (!repository.updateListing(listing)) {
             result.addErrorMessage("Unable to update listing", ResultType.INVALID);
             return result;
         }
+
         return result;
     }
 
-    public Result deleteListing (Listing listing){
-        Result result = new Result();
+    public boolean deleteListing (int listingId){
+        return repository.deleteListingById(listingId);
+    }
 
-//        if (listing == null || listing.getLink().isBlank()) {
-//            result.addErrorMessage("Listing link cannot be null or blank.", ResultType.NOT_FOUND);
-//            return result;
-//        }
+    private Result<Listing> validate (Listing listing) {
+        Result<Listing> result = new Result<>();
 
-        if (!repository.deleteListingById(listing.getListingId())) {
-            result.addErrorMessage("Unable to delete listing",ResultType.INVALID);
+        if (listing == null) {
+            result.addErrorMessage("Listing cannot be null or blank", ResultType.INVALID);
             return result;
+        }
+
+        if (Validations.isNullOrBlank(listing.getLink())) {
+            result.addErrorMessage("Listing link is required", ResultType.INVALID);
+        }
+
+        List<Listing> all = repository.findAll();
+
+        for (Listing l : all) {
+            if ( l != listing) {
+                result.addErrorMessage("Listing could not be found", ResultType.NOT_FOUND);
+            }
+
+            if (l.equals(listing)) {
+                result.addErrorMessage("Listing already exists for this user", ResultType.INVALID);
+            }
+
+            if (l.getListingId() == listing.getListingId()) {
+                result.addErrorMessage("Listing already exists for this user", ResultType.INVALID);
+            }
         }
 
         return result;
