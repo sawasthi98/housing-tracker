@@ -63,5 +63,13 @@ public class LocationJdbcTemplateRepository implements LocationRepository {
         return location;
     }
 
+    @Override
+    public boolean deleteLocationByZipcode (int zipcode) {
+        // allows user to delete all listings connected to that location at once
+        Location location = findLocationByZipcode(zipcode);
+
+        jdbcTemplate.update("delete from listings where location_id = ?;", location.getLocationId());
+        return jdbcTemplate.update("delete from location where location_id = ?;", location.getLocationId()) > 0;
+    }
 
 }

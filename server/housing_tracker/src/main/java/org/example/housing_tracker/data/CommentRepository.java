@@ -11,6 +11,7 @@ import java.util.List;
 public interface CommentRepository {
 
     public List<Comment> findAll();
+    public List<Comment> findByListingId(int listingId);
     public Comment addComment(Comment comment);
     public boolean updateComment(Comment comment);
     public boolean deleteCommentById(int commentId);
