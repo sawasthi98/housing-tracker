@@ -23,25 +23,29 @@ public class LocationService {
         return repository.findLocationByZipcode(zipcode);
     }
 
-    public Result<Location> addLocation (Location location) {
-        Result result = validate(location);
+    public Result<Location> findOrAddLocation (Location location) {
+        Result<Location> result = validate(location);
 
         if (!result.isSuccess()) {
             return result;
         }
 
-        if (location.getLocationId() != 0) {
-            result.addErrorMessage("locationId cannot be set for `add` operation", ResultType.INVALID);
+        if (findLocationByZipcode(location.getZipCode()) == null) {
+            if (location.getLocationId() != 0) {
+                result.addErrorMessage("locationId cannot be set for `add` operation", ResultType.INVALID);
+                return result;
+            }
+
+            if (repository.addLocation(location) == null) {
+                result.addErrorMessage("Unable to add new location.",ResultType.INVALID);
+                return result;
+            }
+
+            location = repository.addLocation(location);
+            result.setPayload(location);
             return result;
         }
 
-        if (repository.addLocation(location) == null) {
-            result.addErrorMessage("Unable to add new location.",ResultType.INVALID);
-            return result;
-        }
-
-        location = repository.addLocation(location);
-        result.setPayload(location);
         return result;
     }
 
@@ -65,13 +69,19 @@ public class LocationService {
             result.addErrorMessage("Location city is required and cannot be left blank", ResultType.INVALID);
         }
 
-//        List<Location> all = repository.findAll();
-//
-//        for (Location l : all) {
-//            if (l != location) {
-//                result.addErrorMessage("Location could not be found",ResultType.NOT_FOUND);
-//            }
-//        }
+        // doesn't seem necessary as there are multiple listings for one location
+        if (result.isSuccess()) {
+            List<Location> all = repository.findAll();
+
+            for (Location l : all) {
+                if (l != location) {
+                    result.addErrorMessage("Location could not be found",ResultType.NOT_FOUND);
+                }
+            }
+        }
+
+
+
 
         return result;
     }

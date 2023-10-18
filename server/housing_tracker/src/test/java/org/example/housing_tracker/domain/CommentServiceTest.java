@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.scripting.support.ResourceScriptSource;
 
 import java.util.List;
 
@@ -86,7 +87,14 @@ class CommentServiceTest {
 
     @Test
     void shouldUpdateComment () {
-        
+        Comment comment = new Comment(3, "To update comment", 1,2);
+
+        when(repository.updateComment(comment)).thenReturn(true);
+
+        Result<Comment> result = service.updateComment(comment);
+
+        assertTrue(result.isSuccess());
+        assertEquals(ResultType.SUCCESS, result.getResultType());
     }
 
     @Test
@@ -96,6 +104,12 @@ class CommentServiceTest {
 
     @Test
     void shouldDeleteCommentByCommentId () {
+        Comment comment = new Comment(3, "To delete comment", 1,2);
 
+        when(repository.deleteCommentById(comment.getCommentId())).thenReturn(true);
+
+        boolean deletedResult = service.deleteCommentById(comment.getCommentId());
+
+        assertTrue(deletedResult);
     }
 }
