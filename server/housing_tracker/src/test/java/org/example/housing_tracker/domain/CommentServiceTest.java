@@ -106,9 +106,9 @@ class CommentServiceTest {
     void shouldDeleteCommentByCommentId () {
         Comment comment = new Comment(3, "To delete comment", 1,2);
 
-        when(repository.deleteCommentById(3));
+        when(repository.deleteCommentById(comment.getCommentId())).thenReturn(true);
 
-        boolean deletedResult = service.deleteComment(3);
+        boolean deletedResult = service.deleteCommentById(comment.getCommentId());
 
         assertTrue(deletedResult);
     }

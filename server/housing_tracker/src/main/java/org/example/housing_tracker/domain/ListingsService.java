@@ -28,7 +28,7 @@ public class ListingsService {
     }
 
     public Result<Listing> addListing (Listing listing) {
-        Result result = validate(listing);
+        Result<Listing> result = validate(listing);
 
         if (!result.isSuccess()) {
             return result;
@@ -53,7 +53,7 @@ public class ListingsService {
     }
 
     public Result<Listing> updateListing (Listing listing) {
-        Result result = validate(listing);
+        Result<Listing> result = validate(listing);
 
         if (listing.getListingId() <= 0) {
             result.addErrorMessage("listingId must be set for `update` operation", ResultType.INVALID);
@@ -89,21 +89,16 @@ public class ListingsService {
             result.addErrorMessage("Listing link is required", ResultType.INVALID);
         }
 
-        List<Listing> all = repository.findAll();
+        if (result.isSuccess()) {
+            List<Listing> all = repository.findAll();
 
-        for (Listing l : all) {
-            if ( l != listing) {
-                result.addErrorMessage("Listing could not be found", ResultType.NOT_FOUND);
-            }
-
-            if (l.equals(listing)) {
-                result.addErrorMessage("Listing already exists for this user", ResultType.INVALID);
-            }
-
-            if (l.getListingId() == listing.getListingId()) {
-                result.addErrorMessage("Listing already exists for this user", ResultType.INVALID);
+            for (Listing l : all) {
+                if (l.equals(listing)) {
+                    result.addErrorMessage("Listing already exists for this user", ResultType.INVALID);
+                }
             }
         }
+
 
         return result;
     }

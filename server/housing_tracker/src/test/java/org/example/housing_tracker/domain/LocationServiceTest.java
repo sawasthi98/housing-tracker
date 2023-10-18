@@ -55,7 +55,7 @@ class LocationServiceTest {
 
         when(repository.addLocation(location)).thenReturn(location);
 
-        Result<Location> result = service.addLocation(location);
+        Result<Location> result = service.findOrAddLocation(location);
 
         assertTrue(result.isSuccess());
         assertNotNull(result.getErrorMessages());
