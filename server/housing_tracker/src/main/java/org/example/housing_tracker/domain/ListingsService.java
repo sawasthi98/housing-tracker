@@ -40,9 +40,12 @@ public class ListingsService {
         }
 
         if (repository.createListing(listing) == null) {
-            result.addErrorMessage("Unable to add new listing.",ResultType.INVALID);
+            result.addErrorMessage("Unable to add new listing",ResultType.INVALID);
             return result;
         }
+
+//        add location if location by zipcode does not exist previously - locationrepo add
+
 
         listing = repository.createListing(listing);
         result.setPayload(listing);

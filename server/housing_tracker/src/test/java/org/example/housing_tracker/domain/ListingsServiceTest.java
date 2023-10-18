@@ -109,18 +109,18 @@ class ListingsServiceTest {
         assertNotNull(result.getErrorMessages());
     }
 
-//    @Test
-//    void shouldNotCreateDuplicateListing () {
-//        Listing duplicateListing = new Listing();
-//        duplicateListing.setLink("link@firstlink.com");
-//
+    @Test
+    void shouldNotCreateDuplicateListing () {
+        Listing duplicateListing = new Listing();
+        duplicateListing.setLink("link@firstlink.com");
+
 //        when(repository.createListing(duplicateListing)).thenReturn(null);
-//
-//        Result<Listing> result = service.addListing(duplicateListing);
-//
-//        assertFalse(result.isSuccess());
-//        assertTrue(result.getErrorMessages().contains("Listing already exists for this user"));
-//    }
+
+        Result<Listing> result = service.addListing(duplicateListing);
+
+        assertFalse(result.isSuccess());
+//        assertEquals(result.getErrorMessages(),"Listing already exists for this user");
+    }
 
     @Test
     void shouldUpdateListing () {
