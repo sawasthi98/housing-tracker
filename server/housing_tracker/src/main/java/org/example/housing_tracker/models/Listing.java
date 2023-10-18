@@ -1,5 +1,7 @@
 package org.example.housing_tracker.models;
 
+import java.util.Objects;
+
 public class Listing {
 
     private int listingId;
@@ -117,5 +119,18 @@ public class Listing {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Listing that = (Listing) o;
+        return listingId == that.listingId && link.equals(that.link) && locationId == that.locationId && appUserId == that.appUserId && cost == that.cost && numBeds == that.numBeds && numBaths == that.numBaths && petFriendly == that.petFriendly && laundryAvailability.equals(that.laundryAvailability) && parking.equals(that.parking) && gym == that.gym;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(listingId, listingId, appUserId, cost, numBeds, numBaths, petFriendly, laundryAvailability, parking, gym);
     }
 }

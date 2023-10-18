@@ -1,5 +1,7 @@
 package org.example.housing_tracker.models;
 
+import java.util.Objects;
+
 public class Location {
 
     private int locationId;
@@ -47,5 +49,18 @@ public class Location {
 
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location that = (Location) o;
+        return locationId == that.locationId && city.equals(that.city) && state.equals(that.state) && zipCode == that.zipCode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(locationId, city, state, zipCode);
     }
 }

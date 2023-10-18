@@ -64,15 +64,14 @@ public class CommentJdbcTemplateRepository implements CommentRepository {
     @Override
     public boolean updateComment (Comment comment) {
         final String sql = "update comments set " +
-                "comment_text = ?, " +
-                "app_user_id = ?, " +
-                "listing_id = ?, " +
-                "where comment_id = ?;";
+                "comment_text = ? " +
+                "where listing_id = ? " +
+                "and app_user_id = ?;";
 
         return jdbcTemplate.update(sql,
                 comment.getCommentText(),
-                comment.getAppUserId(),
-                comment.getListingId())
+                comment.getListingId(),
+                comment.getAppUserId())
                 > 0;
     }
 

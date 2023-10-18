@@ -1,5 +1,7 @@
 package org.example.housing_tracker.models;
 
+import java.util.Objects;
+
 public class Comment {
 
     private int commentId;
@@ -47,5 +49,18 @@ public class Comment {
 
     public void setListingId(int listingId) {
         this.listingId = listingId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment that = (Comment) o;
+        return commentId == that.commentId && commentText.equals(that.commentText) && listingId == that.listingId && appUserId == that.appUserId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(commentId, commentText, listingId, appUserId);
     }
 }
