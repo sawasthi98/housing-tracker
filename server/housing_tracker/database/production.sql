@@ -112,7 +112,10 @@ insert into comments (comment_text, app_user_id, listing_id)
     ("This one is so pretty!",2,1);
     
     
+-- update comments set 
+-- comment_text = "test update comment"
+-- where app_user_id = 4
+-- and listing_id = 2;
+
 select * from comments;
--- delete from comments where listing_id = 1;
--- delete from listings where listing_id = 1;
 
