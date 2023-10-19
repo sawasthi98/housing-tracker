@@ -114,12 +114,15 @@ class ListingsServiceTest {
         Listing duplicateListing = new Listing();
         duplicateListing.setLink("link@firstlink.com");
 
-//        when(repository.createListing(duplicateListing)).thenReturn(null);
+        when(repository.findAll()).thenReturn(List.of(
+                duplicateListing
+        ));
+        when(repository.createListing(duplicateListing)).thenReturn(null);
 
         Result<Listing> result = service.addListing(duplicateListing);
 
         assertFalse(result.isSuccess());
-//        assertEquals(result.getErrorMessages(),"Listing already exists for this user");
+        assertTrue(result.getErrorMessages().contains("Listing already exists for this user"));
     }
 
     @Test
