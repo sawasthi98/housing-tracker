@@ -54,13 +54,16 @@ class CommentServiceTest {
     void shouldNotAddDuplicateComments () {
         Comment comment = new Comment(3,"Test comment",2,1);
 
+        when(repository.findAll()).thenReturn(List.of(
+                comment
+        ));
         when(repository.addComment(comment)).thenReturn(null);
 
         Result<Comment> result = service.addComment(comment);
 
         assertNotNull(result);
         assertFalse(result.isSuccess());
-//        assertEquals("Comment already exists",result.getErrorMessages());
+        assertTrue(result.getErrorMessages().contains("Comment already exists for this listing"));
     }
 
     @Test
