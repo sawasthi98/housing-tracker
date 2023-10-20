@@ -40,7 +40,11 @@ public class ListingController {
 
     @GetMapping("/{listingId}")
     public ResponseEntity<Listing> findById(@PathVariable int listingId) {
-        Listing listing = listingsService.findByListingId(listingId);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserService.loadUserByUsername(username);
+        
+        Listing listing = listingsService.findByListingId(listingId, user.getAppUserId());
+
         if (listing == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

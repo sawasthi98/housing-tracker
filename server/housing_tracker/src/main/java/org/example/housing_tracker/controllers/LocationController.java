@@ -29,13 +29,20 @@ public class LocationController {
     }
 
     @GetMapping
-    public List<Location> findAll() {
-        return service.findAll();
+    public ResponseEntity<List<Location>> findAll() {
+
+        List<Location> allLocations = locationService.findAll(user);
+
+        if (allLocations == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(allLocations);
     }
 
     @GetMapping("/{zipcode}")
     public ResponseEntity<Location> findById(@PathVariable int zipcode) {
-        Location location = service.findLocationByZipcode(zipcode);
+        Location location = locationService.findLocationByZipcode(zipcode, user.getAppUserId());
         if (location == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -44,7 +51,7 @@ public class LocationController {
 
     @PostMapping
     public ResponseEntity<Object> addLocation(@RequestBody Location location) {
-        Result<Location> result = service.findOrAddLocation(location);
+        Result<Location> result = locationService.findOrAddLocation(location, user);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
@@ -53,7 +60,7 @@ public class LocationController {
 
     @DeleteMapping("/{zipcode}")
     public ResponseEntity<Void> deleteById(@PathVariable int zipcode) {
-        if (service.deleteLocation(zipcode)) {
+        if (locationService.deleteLocation(zipcode, user.getAppUserId())) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -21,18 +21,20 @@ public class LocationJdbcTemplateRepository implements LocationRepository {
     }
 
     @Override
-    public List<Location> findAll() {
+    public List<Location> findAll(int appUserId) {
         final String sql = "select location_id, city, state, zipcode " +
-                "from location;";
+                "from location " +
+                "where app_user_id = ?;";
 
-        return jdbcTemplate.query(sql, new LocationMapper(jdbcTemplate));
+        return jdbcTemplate.query(sql, new LocationMapper(jdbcTemplate),appUserId);
     }
 
     @Override
-    public Location findLocationByZipcode (int zipcode) {
+    public Location findLocationByZipcode (int zipcode, int appUserId) {
         final String sql = "select location_id, city, state, zipcode " +
                 "from location " +
-                "where zipcode = ?;";
+                "where zipcode = ? " +
+                "and app_user_id = ?;";
 
         return jdbcTemplate.query(sql, new LocationMapper(jdbcTemplate), zipcode).stream()
                 .findAny().orElse(null);
@@ -64,9 +66,9 @@ public class LocationJdbcTemplateRepository implements LocationRepository {
     }
 
     @Override
-    public boolean deleteLocationByZipcode (int zipcode) {
+    public boolean deleteLocationByZipcode (int zipcode, int appUserId) {
         // allows user to delete all listings connected to that location at once
-        Location location = findLocationByZipcode(zipcode);
+        Location location = findLocationByZipcode(zipcode, appUserId);
 
         jdbcTemplate.update("delete from listings where location_id = ?;", location.getLocationId());
         return jdbcTemplate.update("delete from location where location_id = ?;", location.getLocationId()) > 0;

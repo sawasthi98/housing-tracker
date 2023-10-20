@@ -21,8 +21,8 @@ public class ListingsService {
         return repository.findAll(user.getAppUserId());
     }
 
-    public Listing findListingByLink (String link) {
-        return repository.findListingByLink(link);
+    public Listing findListingByLink (String link, int appUserId) {
+        return repository.findListingByLink(link, appUserId);
     }
 
     public Listing findByListingId (int listingId, int appUserId) {
