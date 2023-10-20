@@ -1,7 +1,11 @@
 package org.example.housing_tracker.controllers;
 
+import org.example.housing_tracker.domain.AppUserService;
 import org.example.housing_tracker.domain.ListingsService;
 import org.example.housing_tracker.domain.Result;
+import org.example.housing_tracker.models.AppUser;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.example.housing_tracker.models.Listing;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +17,27 @@ import java.util.List;
 @RequestMapping("/api/my-homes")
 public class ListingController {
 
-    private final ListingsService service;
+    private final ListingsService listingsService;
+    private final AppUserService appUserService;
 
-    public ListingController(ListingsService service) {
-        this.service = service;
+    public ListingController(ListingsService listingsService, AppUserService appUserService) {
+        this.listingsService = listingsService;
+        this.appUserService = appUserService;
     }
 
     @GetMapping
     public List<Listing> findAll() {
-        return service.findAll();
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserService.loadUserByUsername(username);
+
+        // service find by app user id
+        List<Listing> allListings = listingsService.findByAppUserId(user.getAppUserId());
+
+        if (allListings != null) {
+            return new ResponseEntity<>(allListings, HttpStatus.OK);
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @GetMapping("/{listingId}")
@@ -43,7 +59,7 @@ public class ListingController {
     }
 
     @PutMapping("/{listingId}")
-    public ResponseEntity<Object> update(@PathVariable int listingId, @RequestBody Listing listing) {
+    public ResponseEntity<Object> updateListing(@PathVariable int listingId, @RequestBody Listing listing) {
         if (listingId != listing.getListingId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
