@@ -41,13 +41,14 @@ public class ListingsJdbcTemplateRepository implements ListingsRepository {
     }
 
     @Override
-    public List<Listing> findAll() throws DataAccessException {
+    public List<Listing> findAll(int appUserId) throws DataAccessException {
         final String sql = "select listing_id, location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym " +
                 "from listings " +
+                "where app_user_id = ? " +
                 "order by location_id;";
-//        default ordering by city/zipcode
+////        default ordering by city/zipcode
 
-        return jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate));
+        return jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate), appUserId);
     }
 
     @Override
@@ -113,9 +114,10 @@ public class ListingsJdbcTemplateRepository implements ListingsRepository {
     }
 
     @Override
-    public boolean deleteListingById (int listingId) throws DataAccessException {
+    public boolean deleteListingById (int listingId, int appUserId) throws DataAccessException {
 //        delete cascade - comments is dependent on listings table
         jdbcTemplate.update("delete from comments where listing_id = ?;", listingId);
-        return jdbcTemplate.update("delete from listings where listing_id = ?;", listingId) > 0;
+        return jdbcTemplate.update("delete from listings where listing_id = ? " +
+                "and app_user_id = ?;", listingId, appUserId) > 0;
     }
 }

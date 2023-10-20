@@ -1,6 +1,8 @@
 package org.example.housing_tracker.domain;
 
+import org.example.housing_tracker.App;
 import org.example.housing_tracker.data.ListingsRepository;
+import org.example.housing_tracker.models.AppUser;
 import org.example.housing_tracker.models.Listing;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,8 @@ public class ListingsService {
         this.repository = repository;
     }
 
-    public List<Listing> findAll () {
-        return repository.findAll();
+    public List<Listing> findAll (AppUser user) {
+        return repository.findAll(user.getAppUserId());
     }
 
     public Listing findListingByLink (String link) {
@@ -27,8 +29,8 @@ public class ListingsService {
         return repository.findListingById(listingId);
     }
 
-    public Result<Listing> addListing (Listing listing) {
-        Result<Listing> result = validate(listing);
+    public Result<Listing> addListing (Listing listing, AppUser user) {
+        Result<Listing> result = validate(listing, user);
 
         if (!result.isSuccess()) {
             return result;
@@ -52,8 +54,8 @@ public class ListingsService {
         return result;
     }
 
-    public Result<Listing> updateListing (Listing listing) {
-        Result<Listing> result = validate(listing);
+    public Result<Listing> updateListing (Listing listing, AppUser user) {
+        Result<Listing> result = validate(listing, user);
 
         if (listing.getListingId() <= 0) {
             result.addErrorMessage("listingId must be set for `update` operation", ResultType.INVALID);
@@ -73,11 +75,11 @@ public class ListingsService {
         return result;
     }
 
-    public boolean deleteListing (int listingId){
-        return repository.deleteListingById(listingId);
+    public boolean deleteListing (int listingId, int appUserId){
+        return repository.deleteListingById(listingId, appUserId);
     }
 
-    private Result<Listing> validate (Listing listing) {
+    private Result<Listing> validate (Listing listing, AppUser user) {
         Result<Listing> result = new Result<>();
 
         if (listing == null) {
@@ -90,7 +92,7 @@ public class ListingsService {
         }
 
         if (result.isSuccess()) {
-            List<Listing> all = repository.findAll();
+            List<Listing> all = repository.findAll(user.getAppUserId());
 
             for (Listing l : all) {
                 if (l.equals(listing)) {
