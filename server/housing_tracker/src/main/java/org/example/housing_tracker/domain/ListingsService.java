@@ -1,6 +1,8 @@
 package org.example.housing_tracker.domain;
 
+import org.example.housing_tracker.data.AppUserRepository;
 import org.example.housing_tracker.data.ListingsRepository;
+import org.example.housing_tracker.models.AppUser;
 import org.example.housing_tracker.models.Listing;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +11,12 @@ import java.util.List;
 @Service
 public class ListingsService {
 
-    ListingsRepository repository;
+    ListingsRepository listingsRepository;
+    AppUserRepository appUserRepository;
 
-    public ListingsService(ListingsRepository repository) {
-        this.repository = repository;
+    public ListingsService(ListingsRepository listingsRepository, AppUserRepository appUserRepository) {
+        this.listingsRepository = listingsRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     public List<Listing> findAll () {
@@ -27,8 +31,10 @@ public class ListingsService {
         return repository.findListingById(listingId);
     }
 
-    public Result<Listing> addListing (Listing listing) {
-        Result<Listing> result = validate(listing);
+    public Result<Listing> findOrAddListing (Listing listing, int appUserId) {
+        AppUser user = appUserRepository.findUserByAppUserId(appUserId);
+
+        Result<Listing> result = validate(listing, user);
 
         if (!result.isSuccess()) {
             return result;
@@ -39,15 +45,29 @@ public class ListingsService {
             return result;
         }
 
-        if (repository.createListing(listing) == null) {
+        if (listingsRepository.createListing(listing) == null) {
             result.addErrorMessage("Unable to add new listing",ResultType.INVALID);
             return result;
         }
 
+        try {
+            List<Listing> listings = listingsRepository.findByAppUserIdAndItemId(appUserId, item.getItemId());
+        }
+        catch (EmptyResultDataAccessException a){//app user doesnt have this in their shelf
+            ItemShelf itemShelf=itemShelfRepository.addItemToShelf(item.getItemId(),appUserId);
+
+            if(itemShelf == null) {
+                ItemShelf addedItem = itemShelfRepository.addItemToShelf(item.getItemId(), appUser.getAppUserId());
+                result.setPayload(addedItem);
+            }
+        }
+
+        return result;
+
 //        add location if location by zipcode does not exist previously - locationrepo add
 
 
-        listing = repository.createListing(listing);
+        listing = listingsRepository.createListing(listing);
         result.setPayload(listing);
         return result;
     }
@@ -60,12 +80,12 @@ public class ListingsService {
             return result;
         }
 
-        if (!repository.updateListing(listing)) {
+        if (!listingsRepository.updateListing(listing)) {
             String msg = String.format("listingId: %s, not found", listing.getListingId());
             result.addErrorMessage(msg, ResultType.NOT_FOUND);
         }
 
-        if (!repository.updateListing(listing)) {
+        if (!listingsRepository.updateListing(listing)) {
             result.addErrorMessage("Unable to update listing", ResultType.INVALID);
             return result;
         }
@@ -74,7 +94,7 @@ public class ListingsService {
     }
 
     public boolean deleteListing (int listingId){
-        return repository.deleteListingById(listingId);
+        return listingsRepository.deleteListingById(listingId);
     }
 
     private Result<Listing> validate (Listing listing) {
@@ -90,7 +110,7 @@ public class ListingsService {
         }
 
         if (result.isSuccess()) {
-            List<Listing> all = repository.findAll();
+            List<Listing> all = listingsRepository.findAll();
 
             for (Listing l : all) {
                 if (l.equals(listing)) {
