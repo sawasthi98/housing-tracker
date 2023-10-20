@@ -22,21 +22,23 @@ public class ListingsJdbcTemplateRepository implements ListingsRepository {
     }
 
     @Override
-    public Listing findListingById(int listingId) throws DataAccessException {
+    public Listing findListingById(int listingId, int appUserId) throws DataAccessException {
         final String sql = "select listing_id, location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym " +
                 "from listings " +
-                "where listing_id = ?;";
+                "where listing_id = ? " +
+                "and app_user_id = ?;";
 
-        return jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate), listingId).stream().findFirst().orElse(null);
+        return jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate), listingId, appUserId).stream().findFirst().orElse(null);
     }
-
+    
     @Override
-    public Listing findListingByLink(String link) throws DataAccessException {
+    public Listing findListingByLink(String link, int appUserId) throws DataAccessException {
         final String sql = "select listing_id, location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym " +
                 "from listings " +
-                "where link = ?;";
+                "where link = ? " +
+                "and app_user_id = ?;";
 
-        List<Listing> all = jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate), link);
+        List<Listing> all = jdbcTemplate.query(sql, new ListingMapper(jdbcTemplate), link, appUserId);
         return (all == null || all.size() == 0 ? null : all.get(0));
     }
 

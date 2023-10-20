@@ -1,12 +1,15 @@
 package org.example.housing_tracker.controllers;
 
+import org.example.housing_tracker.domain.AppUserService;
 import org.example.housing_tracker.domain.ListingsService;
 import org.example.housing_tracker.domain.LocationService;
 import org.example.housing_tracker.domain.Result;
+import org.example.housing_tracker.models.AppUser;
 import org.example.housing_tracker.models.Listing;
 import org.example.housing_tracker.models.Location;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +18,14 @@ import java.util.List;
 @RequestMapping("api/my-locations")
 public class LocationController {
 
-    private final LocationService service;
+    private final LocationService locationService;
+    private AppUserService appUserService;
+    private final String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private final AppUser user = appUserService.loadUserByUsername(username);
 
-    public LocationController(LocationService service) {
-        this.service = service;
+    public LocationController(LocationService locationService, AppUserService appUserService) {
+        this.locationService = locationService;
+        this.appUserService = appUserService;
     }
 
     @GetMapping
