@@ -55,7 +55,7 @@ public class ListingController {
     public ResponseEntity<Object> addListing(@RequestBody Listing listing) {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        //find user ID by user name
+        //find user ID by username
         AppUser user = appUserService.loadUserByUsername(username);
 
         Result<Listing> result = listingsService.addListing(listing, user);

@@ -38,7 +38,12 @@ create table location (
 	location_id int primary key auto_increment,
     city text,
     state text, 
-    zipcode int
+    zipcode int,
+    app_user_id int not null,
+    
+    constraint fk_location_user_id
+        foreign key (app_user_id)
+        references app_user(app_user_id)
 );
 
 create table listings (
@@ -110,10 +115,10 @@ insert into app_user_role
     (4, 1),
     (5, 1);  
     
-insert into location (city, state, zipcode)
+insert into location (city, state, zipcode, app_user_id)
 	values 
-    ("Charlotte","NC",28278),
-    ("Charlotte","NC",28217);
+    ("Charlotte","NC",28278, 1),
+    ("Charlotte","NC",28217, 4);
     
 insert into listings (location_id, link, cost, num_beds, num_baths, app_user_id, pet_friendly, laundry, parking, gym)
 	values
