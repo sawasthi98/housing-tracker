@@ -23,8 +23,7 @@ public class LocationJdbcTemplateRepository implements LocationRepository {
     @Override
     public List<Location> findAll(int appUserId) {
         final String sql = "select l.location_id, l.city, l.state, l.zipcode, au.app_user_id " +
-                "from location l inner join app_user au on " +
-                "from location " +
+                "from location l inner join app_user au on l.app_user_id = au.app_user_id " +
                 "where app_user_id = ?;";
 
         return jdbcTemplate.query(sql, new LocationMapper(jdbcTemplate),appUserId);

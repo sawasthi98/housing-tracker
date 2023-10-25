@@ -1,6 +1,7 @@
 package org.example.housing_tracker.domain;
 
 import org.example.housing_tracker.data.LocationRepository;
+import org.example.housing_tracker.models.AppUser;
 import org.example.housing_tracker.models.Location;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +21,29 @@ class LocationServiceTest {
 
     @MockBean
     LocationRepository repository;
+    private AppUser user = new AppUser();
 
     @Test
     void shouldFindAll() {
-        when(repository.findAll()).thenReturn(List.of(
-                new Location(1,"Charlotte", "NC", 28278),
-                new Location(2, "Charlotte", "NC", 28217)
+        user.setAppUserId(1);
+         
+        when(repository.findAll(1)).thenReturn(List.of(
+                new Location(1,"Charlotte", "NC", 28278,1),
+                new Location(2, "Charlotte", "NC", 28217,1)
         ));
 
-        List<Location> all = service.findAll();
+        List<Location> all = service.findAll(user);
 
         assertEquals(2,all.size());
     }
 
     @Test
     void shouldFindLocationByZipcode () {
-        Location existingLocation = new Location(1,"Charlotte", "NC", 28278);
+        Location existingLocation = new Location(1,"Charlotte", "NC", 28278,1);
 
-        when(repository.findLocationByZipcode(28278)).thenReturn(existingLocation);
+        when(repository.findLocationByZipcode(28278,1)).thenReturn(existingLocation);
 
-        Location foundLocation = service.findLocationByZipcode(28278);
+        Location foundLocation = service.findLocationByZipcode(28278,1);
 
         assertTrue(existingLocation.equals(foundLocation));
         assertEquals(existingLocation.getZipCode(),foundLocation.getZipCode());

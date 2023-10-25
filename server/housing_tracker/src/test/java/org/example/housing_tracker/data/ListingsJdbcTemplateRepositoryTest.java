@@ -37,7 +37,7 @@ class ListingsJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindListingById () {
-        Listing foundListing = repository.findListingById(2);
+        Listing foundListing = repository.findListingById(2, 1);
 
         assertNotNull(foundListing);
         assertEquals(foundListing.getListingId(),testListing.getListingId());
@@ -46,25 +46,25 @@ class ListingsJdbcTemplateRepositoryTest {
 
     @Test
     void shouldNotFindNonexistentListing () {
-        Listing nonexistentListing = repository.findListingById(3000);
+        Listing nonexistentListing = repository.findListingById(3000,1);
 
         assertNull(nonexistentListing);
     }
 
     @Test
     void shouldFindListingByLink () {
-        Listing foundListing = repository.findListingByLink("anothertest@link.com");
+        Listing foundListing = repository.findListingByLink("anothertest@link.com", 2);
 
         assertNotNull(foundListing);
-        assertEquals(foundListing.getListingId(),3);
+        assertEquals(foundListing.getListingId(),1);
     }
 
     @Test
     void shouldFindAll () {
-        List<Listing> allListings = repository.findAll();
+        List<Listing> allListings = repository.findAll(2);
 
         assertNotNull(allListings);
-        assertEquals(allListings.size(),3);
+        assertEquals(allListings.size(),1);
     }
 
     @Test
@@ -97,13 +97,13 @@ class ListingsJdbcTemplateRepositoryTest {
         testListing.setNumBaths(1);
 
         assertTrue(repository.updateListing(testListing));
-        assertEquals(testListing.getLink(), repository.findListingById(2).getLink());
+        assertEquals(testListing.getLink(), repository.findListingById(2,4).getLink());
     }
 
     @Test
     void shouldDeleteListingById() {
-        assertTrue(repository.deleteListingById(1));
-        assertFalse(repository.deleteListingById(23));
+        assertTrue(repository.deleteListingById(1,1));
+        assertFalse(repository.deleteListingById(23,4));
     }
 
 }
