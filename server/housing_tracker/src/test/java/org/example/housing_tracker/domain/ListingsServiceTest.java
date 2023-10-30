@@ -28,9 +28,10 @@ class ListingsServiceTest {
     @Test
     void shouldFindAll () {
         when(repository.findAll(1)).thenReturn(List.of(
-                new Listing(1,"testLink1@test.com",3,1200,2,2,1,false,"In-Unit","Street parking",false),
+                new Listing(1,"testLink1@test.com",1,1200,2,2,1,false,"In-Unit","Street parking",false),
                 new Listing(2,"testLink2@test.com",1,200,0,1,1,false,"Shared","Garage",false)
         ));
+        user.setAppUserId(1);
 
         List<Listing> all = service.findAll(user);
 

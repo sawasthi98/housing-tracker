@@ -61,7 +61,7 @@ create table listings (
     constraint fk_listings_location_id
         foreign key (location_id)
         references location(location_id),
-    constraint fk_app_user_user_id
+    constraint fk_listings_app_user_id
         foreign key (app_user_id)
         references app_user(app_user_id)
 );

@@ -37,7 +37,7 @@ class ListingsJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindListingById () {
-        Listing foundListing = repository.findListingById(2, 1);
+        Listing foundListing = repository.findListingById(2, 4);
 
         assertNotNull(foundListing);
         assertEquals(foundListing.getListingId(),testListing.getListingId());
@@ -56,7 +56,7 @@ class ListingsJdbcTemplateRepositoryTest {
         Listing foundListing = repository.findListingByLink("anothertest@link.com", 2);
 
         assertNotNull(foundListing);
-        assertEquals(foundListing.getListingId(),1);
+        assertEquals(foundListing.getListingId(),3);
     }
 
     @Test

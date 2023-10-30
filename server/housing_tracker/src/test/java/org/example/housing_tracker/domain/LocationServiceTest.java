@@ -56,10 +56,11 @@ class LocationServiceTest {
         location.setCity("Philadelphia");
         location.setState("PA");
         location.setZipCode(19104);
+        user.setAppUserId(2);
 
         when(repository.addLocation(location)).thenReturn(location);
 
-        Result<Location> result = service.findOrAddLocation(location);
+        Result<Location> result = service.findOrAddLocation(location,user);
 
         assertTrue(result.isSuccess());
         assertNotNull(result.getErrorMessages());
@@ -73,9 +74,9 @@ class LocationServiceTest {
         location.setState("PA");
         location.setZipCode(19104);
 
-        when(repository.deleteLocationByZipcode(19104)).thenReturn(true);
+        when(repository.deleteLocationByZipcode(19104,2)).thenReturn(true);
 
-        boolean deletedResult = service.deleteLocation(19104);
+        boolean deletedResult = service.deleteLocation(19104,2);
 
         assertTrue(deletedResult);
     }

@@ -4,7 +4,27 @@
 ### get listings for that user only 
 GET {{base_url}} HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5ODE3ODYzNH0.GRA2LUWuMp4SnfAwFwro02qoUIxrTbCZrRe1_dD1m94
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODMwMH0.5FdARaaz88jzSb8O86ed7Y33o_q5YeOi8KZ0Umz5FxU
 
-###
+### Return 404
 
+GET {{base_url}}/3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODQyMX0.QaT6_aizgCawAF_8S4wzQvG13c19zwX0jjsNMwHkYqo
+
+### Return listing id 1
+
+GET {{base_url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODQyMX0.QaT6_aizgCawAF_8S4wzQvG13c19zwX0jjsNMwHkYqo
+
+### 
+
+POST {{base_url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODUzN30.TP2Y-BxysXFw-IBGP9hN1zmrLFx9XFwd7teuqdWrRyc
+
+{
+    "link": "httptestlink@test.com",
+    "locationId": 2
+}
