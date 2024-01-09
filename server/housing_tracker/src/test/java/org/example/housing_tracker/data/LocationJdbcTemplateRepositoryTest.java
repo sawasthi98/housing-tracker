@@ -31,10 +31,10 @@ class LocationJdbcTemplateRepositoryTest {
     }
     @Test
     void shouldFindAll () {
-        List<Location> allLocations = repository.findAll();
+        List<Location> allLocations = repository.findAll(1);
 
         assertNotNull(allLocations);
-        assertEquals(allLocations.size(),2);
+        assertEquals(allLocations.size(),1);
     }
 
 }

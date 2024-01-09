@@ -11,16 +11,15 @@ import java.util.List;
 public interface ListingsRepository {
 
 //    find bys
-    public Listing findListingById (int listingId);
-    public Listing findListingByLink (String link);
-    public List<Listing> findAll ();
-
+    public Listing findListingById (int listingId, int appUserId);
+    public Listing findListingByLink (String link, int appUserId);
+    public List<Listing> findAll (int appUserId);
 //    create
     public Listing createListing (Listing listing);
 //    update
     public boolean updateListing (Listing listing);
 //    delete
-    public boolean deleteListingById (int listingId);
+    public boolean deleteListingById (int listingId, int appUserId);
 
 
 }

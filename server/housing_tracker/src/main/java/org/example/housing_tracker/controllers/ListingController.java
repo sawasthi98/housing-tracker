@@ -1,10 +1,13 @@
 package org.example.housing_tracker.controllers;
 
+import org.example.housing_tracker.domain.AppUserService;
 import org.example.housing_tracker.domain.ListingsService;
 import org.example.housing_tracker.domain.Result;
+import org.example.housing_tracker.models.AppUser;
 import org.example.housing_tracker.models.Listing;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,20 +16,35 @@ import java.util.List;
 @RequestMapping("/api/my-homes")
 public class ListingController {
 
-    private final ListingsService service;
+    private final ListingsService listingsService;
+    private final AppUserService appUserService;
 
-    public ListingController(ListingsService service) {
-        this.service = service;
+    public ListingController(ListingsService listingsService, AppUserService appUserService) {
+        this.listingsService = listingsService;
+        this.appUserService = appUserService;
     }
 
     @GetMapping
-    public List<Listing> findAll() {
-        return service.findAll();
+    public ResponseEntity<List<Listing>> findAll() {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserService.loadUserByUsername(username);
+
+        List<Listing> allListings = listingsService.findAll(user);
+
+        if (allListings == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(allListings);
     }
 
     @GetMapping("/{listingId}")
     public ResponseEntity<Listing> findById(@PathVariable int listingId) {
-        Listing listing = service.findByListingId(listingId);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserService.loadUserByUsername(username);
+        
+        Listing listing = listingsService.findByListingId(listingId, user.getAppUserId());
+
         if (listing == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -35,7 +53,13 @@ public class ListingController {
 
     @PostMapping
     public ResponseEntity<Object> addListing(@RequestBody Listing listing) {
-        Result<Listing> result = service.addListing(listing);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //find user ID by username
+        AppUser user = appUserService.loadUserByUsername(username);
+        listing.setAppUserId(user.getAppUserId());
+
+        Result<Listing> result = listingsService.addListing(listing, user);
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
@@ -44,11 +68,20 @@ public class ListingController {
 
     @PutMapping("/{listingId}")
     public ResponseEntity<Object> update(@PathVariable int listingId, @RequestBody Listing listing) {
-        if (listingId != listing.getListingId()) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserService.loadUserByUsername(username);
+
+        Listing foundListing = listingsService.findByListingId(listingId, user.getAppUserId());
+        if (foundListing != null) {
+            listing.setListingId(listingId);
+            listing.setAppUserId(user.getAppUserId());
+        }
+
+        if (listingId != foundListing.getListingId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        Result<Listing> result = service.updateListing(listing);
+        Result<Listing> result = listingsService.updateListing(listing, user);
         if (result.isSuccess()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -57,7 +90,10 @@ public class ListingController {
 
     @DeleteMapping("/{listingId}")
     public ResponseEntity<Void> deleteById(@PathVariable int listingId) {
-        if (service.deleteListing(listingId)) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserService.loadUserByUsername(username);
+
+        if (listingsService.deleteListing(listingId, user.getAppUserId())) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

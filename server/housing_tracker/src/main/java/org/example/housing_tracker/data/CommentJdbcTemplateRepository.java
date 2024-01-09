@@ -3,6 +3,7 @@ package org.example.housing_tracker.data;
 import org.example.housing_tracker.data.mappers.CommentMapper;
 import org.example.housing_tracker.data.mappers.ListingMapper;
 import org.example.housing_tracker.models.Comment;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -62,7 +63,7 @@ public class CommentJdbcTemplateRepository implements CommentRepository {
     }
 
     @Override
-    public boolean updateComment (Comment comment) {
+    public boolean updateComment (Comment comment) throws DataAccessException {
         final String sql = "update comments set " +
                 "comment_text = ? " +
                 "where listing_id = ? " +

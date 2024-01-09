@@ -8,15 +8,25 @@ public class Location {
     private String city;
     private String state;
     private int zipCode;
+    private int appUserId;
 
     public Location() {
     }
 
-    public Location(int locationId, String city, String state, int zipCode) {
+    public Location(int locationId, String city, String state, int zipCode, int appUserId) {
         this.locationId = locationId;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.appUserId = appUserId;
+    }
+
+    public int getAppUserId() {
+        return appUserId;
+    }
+
+    public void setAppUserId(int appUserId) {
+        this.appUserId = appUserId;
     }
 
     public int getLocationId() {

@@ -1,0 +1,61 @@
+@base_url = http://localhost:8080/api/my-homes
+
+
+### get listings for that user only 
+GET {{base_url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoic2Fpc2hhQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImFwcF91c2VyX2lkIjo2LCJleHAiOjE3MDUxNzMxNzJ9.-MdrFk6ysQnIrjZU2OCeiws5PLT6Gg531jgaUXoc5zk
+
+
+### Return 404
+
+GET {{base_url}}/3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE0ODEzOX0.v_45_tedSgfZraO0T17q7fjIinC0pmz34cU9_LYOpPo
+
+### Return listing id 1
+
+GET {{base_url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE0ODEzOX0.v_45_tedSgfZraO0T17q7fjIinC0pmz34cU9_LYOpPo
+
+### create new listing 
+
+POST {{base_url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoic2Fpc2hhQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImFwcF91c2VyX2lkIjo2LCJleHAiOjE3MDUxNzMxNzJ9.-MdrFk6ysQnIrjZU2OCeiws5PLT6Gg531jgaUXoc5zk
+
+{
+    "link": "createdNewUser@zillow.com",
+    "locationId": 1,
+    "cost": 1200,
+    "numBeds": 2,
+    "numBaths": 1.5,
+    "petFriendly": false,
+    "laundryAvailability": "In-Unit",
+    "parking": "None",
+    "gym": false
+}
+
+### update existing listing 
+
+PUT {{base_url}}/5 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoic2Fpc2hhQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImFwcF91c2VyX2lkIjo2LCJleHAiOjE3MDUxNzMxNzJ9.-MdrFk6ysQnIrjZU2OCeiws5PLT6Gg531jgaUXoc5zk
+
+{
+    "link": "httptestlink@test.com",
+    "locationId": 8,
+    "cost": 2300,
+    "numBeds": 2,
+    "numBaths": 3,
+    "petFriendly": false,
+    "laundryAvailability": "In-Unit",
+    "parking": "Street parking",
+    "gym": false
+}
+
+###
+
+DELETE {{base_url}}/22 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE1ODYxM30.Qcu5wn7ZjgTB7oZVad7r5qONst0E6loYC4vJ6WeP_hs

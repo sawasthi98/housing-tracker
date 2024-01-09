@@ -37,13 +37,16 @@ public class CommentService {
             return result;
         }
 
-        if (repository.addComment(comment) == null) {
-            result.addErrorMessage("Unable to add new comment",ResultType.INVALID);
-            return result;
-        }
+//        if (repository.addComment(comment) == null) {
+//            result.addErrorMessage("Unable to add new comment",ResultType.INVALID);
+//            return result;
+//        }
 
         comment = repository.addComment(comment);
-        result.setPayload(comment);
+        if (comment != null) {
+            result.setPayload(comment);
+        }
+
         return result;
     }
 
