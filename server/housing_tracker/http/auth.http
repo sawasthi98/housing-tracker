@@ -5,3 +5,22 @@ Content-Type: application/json
     "username": "john@smith.com",
     "password": "P@ssw0rd!"
 } 
+
+### create new user
+POST http://localhost:8080/create_account HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "saisha@gmail.com",
+    "password": "H0using@Tracker!"
+}
+
+### 
+
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "saisha@gmail.com",
+    "password": "H0using@Tracker!"
+}
