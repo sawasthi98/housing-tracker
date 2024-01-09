@@ -31,23 +31,25 @@ public class LocationService {
             return result;
         }
 
-        if (findLocationByZipcode(location.getZipCode(), user.getAppUserId()) == null) {
+//        if (findLocationByZipcode(location.getZipCode(), user.getAppUserId()) == null) {
             if (location.getLocationId() != 0) {
                 result.addErrorMessage("locationId cannot be set for `add` operation", ResultType.INVALID);
                 return result;
             }
 
-            if (repository.addLocation(location) == null) {
-                result.addErrorMessage("Unable to add new location.",ResultType.INVALID);
-                return result;
-            }
+//            if (repository.addLocation(location) == null) {
+//                result.addErrorMessage("Unable to add new location.",ResultType.INVALID);
+//                return result;
+//            }
 
             location = repository.addLocation(location);
-            result.setPayload(location);
+            if (location != null) {
+                result.setPayload(location);
+            }
             return result;
-        }
+//        }
 
-        return result;
+//        return result;
     }
 
     public boolean deleteLocation (int zipcode, int appUserId) {
@@ -75,8 +77,8 @@ public class LocationService {
             List<Location> all = repository.findAll(user.getAppUserId());
 
             for (Location l : all) {
-                if (l != location) {
-                    result.addErrorMessage("Location could not be found",ResultType.NOT_FOUND);
+                if (l.equals(location)) {
+                    result.addErrorMessage("Location already exists for this user",ResultType.INVALID);
                 }
             }
         }

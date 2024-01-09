@@ -4,27 +4,58 @@
 ### get listings for that user only 
 GET {{base_url}} HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODMwMH0.5FdARaaz88jzSb8O86ed7Y33o_q5YeOi8KZ0Umz5FxU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE2NTYyN30.VlHfjbME7rFAye8BZFusKZqzHQ1Tr0yoTKd47vCMfWY
+
 
 ### Return 404
 
 GET {{base_url}}/3 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODQyMX0.QaT6_aizgCawAF_8S4wzQvG13c19zwX0jjsNMwHkYqo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE0ODEzOX0.v_45_tedSgfZraO0T17q7fjIinC0pmz34cU9_LYOpPo
 
 ### Return listing id 1
 
 GET {{base_url}}/1 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODQyMX0.QaT6_aizgCawAF_8S4wzQvG13c19zwX0jjsNMwHkYqo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE0ODEzOX0.v_45_tedSgfZraO0T17q7fjIinC0pmz34cU9_LYOpPo
 
-### 
+### create new listing 
 
 POST {{base_url}} HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTY5OTA5ODUzN30.TP2Y-BxysXFw-IBGP9hN1zmrLFx9XFwd7teuqdWrRyc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE2NTYyN30.VlHfjbME7rFAye8BZFusKZqzHQ1Tr0yoTKd47vCMfWY
 
 {
     "link": "httptestlink@test.com",
-    "locationId": 2
+    "locationId": 2,
+    "cost": 1200,
+    "numBeds": 2,
+    "numBaths": 1.5,
+    "petFriendly": false,
+    "laundryAvailability": "In-Unit",
+    "parking": "None",
+    "gym": false
 }
+
+### update existing listing 
+
+PUT {{base_url}}/4 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE2NTYyN30.VlHfjbME7rFAye8BZFusKZqzHQ1Tr0yoTKd47vCMfWY
+
+{
+    "link": "httptestlink@test.com",
+    "locationId": 2,
+    "cost": 2300,
+    "numBeds": 2,
+    "numBaths": 3,
+    "petFriendly": false,
+    "laundryAvailability": "In-Unit",
+    "parking": "Street parking",
+    "gym": false
+}
+
+###
+
+DELETE {{base_url}}/22 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE1ODYxM30.Qcu5wn7ZjgTB7oZVad7r5qONst0E6loYC4vJ6WeP_hs

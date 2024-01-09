@@ -65,8 +65,8 @@ public class ListingsJdbcTemplateRepository implements ListingsRepository {
             statement.setInt(1, listing.getLocationId());
             statement.setString(2, listing.getLink());
             statement.setInt(3, listing.getCost());
-            statement.setInt(4, listing.getNumBeds());
-            statement.setInt(5, listing.getNumBaths());
+            statement.setFloat(4, listing.getNumBeds());
+            statement.setFloat(5, listing.getNumBaths());
             statement.setInt(6, listing.getAppUserId());
             statement.setBoolean(7, listing.isPetFriendly());
             statement.setString(8, listing.getLaundryAvailability());

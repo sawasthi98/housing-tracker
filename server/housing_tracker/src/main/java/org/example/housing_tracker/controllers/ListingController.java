@@ -57,6 +57,7 @@ public class ListingController {
 
         //find user ID by username
         AppUser user = appUserService.loadUserByUsername(username);
+        listing.setAppUserId(user.getAppUserId());
 
         Result<Listing> result = listingsService.addListing(listing, user);
         if (result.isSuccess()) {
@@ -70,7 +71,13 @@ public class ListingController {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser user = appUserService.loadUserByUsername(username);
 
-        if (listingId != listing.getListingId()) {
+        Listing foundListing = listingsService.findByListingId(listingId, user.getAppUserId());
+        if (foundListing != null) {
+            listing.setListingId(listingId);
+            listing.setAppUserId(user.getAppUserId());
+        }
+
+        if (listingId != foundListing.getListingId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

@@ -8,8 +8,8 @@ public class Listing {
     private String link;
     private int locationId;
     private int cost;
-    private int numBeds;
-    private int numBaths;
+    private float numBeds;
+    private float numBaths;
     private int appUserId;
     private boolean petFriendly;
     private String laundryAvailability;
@@ -19,7 +19,7 @@ public class Listing {
     public Listing() {
     }
 
-    public Listing(int listingId, String link, int locationId, int cost, int numBeds, int numBaths, int appUserId, boolean petFriendly, String laundryAvailability, String parking, boolean gym) {
+    public Listing(int listingId, String link, int locationId, int cost, float numBeds, float numBaths, int appUserId, boolean petFriendly, String laundryAvailability, String parking, boolean gym) {
         this.listingId = listingId;
         this.link = link;
         this.locationId = locationId;
@@ -57,19 +57,19 @@ public class Listing {
         this.cost = cost;
     }
 
-    public int getNumBeds() {
+    public float getNumBeds() {
         return numBeds;
     }
 
-    public void setNumBeds(int numBeds) {
+    public void setNumBeds(float numBeds) {
         this.numBeds = numBeds;
     }
 
-    public int getNumBaths() {
+    public float getNumBaths() {
         return numBaths;
     }
 
-    public void setNumBaths(int numBaths) {
+    public void setNumBaths(float numBaths) {
         this.numBaths = numBaths;
     }
 

@@ -41,7 +41,7 @@ public class LocationController {
     }
 
     @GetMapping("/{zipcode}")
-    public ResponseEntity<Location> findById(@PathVariable int zipcode) {
+    public ResponseEntity<Location> findByZipcode(@PathVariable int zipcode) {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser user = appUserService.loadUserByUsername(username);
 
@@ -56,6 +56,7 @@ public class LocationController {
     public ResponseEntity<Object> addLocation(@RequestBody Location location) {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser user = appUserService.loadUserByUsername(username);
+        location.setAppUserId(user.getAppUserId());
 
         Result<Location> result = locationService.findOrAddLocation(location, user);
         if (result.isSuccess()) {
