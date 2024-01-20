@@ -4,26 +4,26 @@
 ### get listings for that user only 
 GET {{base_url}} HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoic2Fpc2hhQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImFwcF91c2VyX2lkIjo2LCJleHAiOjE3MDUxNzMxNzJ9.-MdrFk6ysQnIrjZU2OCeiws5PLT6Gg531jgaUXoc5zk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNjE5MDc2MX0.4VnTBE6ZFfgzQ5crTtNmgiitIbb-3aNfUIZtTfcmDSk
 
 
 ### Return 404
 
 GET {{base_url}}/3 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE0ODEzOX0.v_45_tedSgfZraO0T17q7fjIinC0pmz34cU9_LYOpPo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE3NzY5OX0.eJECGIYJzPhqcQeV8oM8ZZ8EYFY8wdnen_Pvt_ugIww
 
 ### Return listing id 1
 
 GET {{base_url}}/1 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE0ODEzOX0.v_45_tedSgfZraO0T17q7fjIinC0pmz34cU9_LYOpPo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE3NzY5OX0.eJECGIYJzPhqcQeV8oM8ZZ8EYFY8wdnen_Pvt_ugIww
 
 ### create new listing 
 
 POST {{base_url}} HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoic2Fpc2hhQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImFwcF91c2VyX2lkIjo2LCJleHAiOjE3MDUxNzMxNzJ9.-MdrFk6ysQnIrjZU2OCeiws5PLT6Gg531jgaUXoc5zk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE3NzY5OX0.eJECGIYJzPhqcQeV8oM8ZZ8EYFY8wdnen_Pvt_ugIww
 
 {
     "link": "createdNewUser@zillow.com",
@@ -39,13 +39,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoic
 
 ### update existing listing 
 
-PUT {{base_url}}/5 HTTP/1.1
+PUT {{base_url}}/4 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoic2Fpc2hhQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImFwcF91c2VyX2lkIjo2LCJleHAiOjE3MDUxNzMxNzJ9.-MdrFk6ysQnIrjZU2OCeiws5PLT6Gg531jgaUXoc5zk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0Y3NsaWJyYXJ5Iiwic3ViIjoiam9obkBzbWl0aC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiYXBwX3VzZXJfaWQiOjEsImV4cCI6MTcwNTE3NzY5OX0.eJECGIYJzPhqcQeV8oM8ZZ8EYFY8wdnen_Pvt_ugIww
 
 {
     "link": "httptestlink@test.com",
-    "locationId": 8,
+    "locationId": 1,
     "cost": 2300,
     "numBeds": 2,
     "numBaths": 3,
